@@ -1,0 +1,15 @@
+{
+  "n_agent": 3,
+  "k_memory": 1,
+  "discount_rate": 0.95,
+  "exploration_rate": 1,
+  "min_price": 0,
+  "max_price": 5,
+  "reservation_price": 4,
+  "m_consumer": 60,
+  "step": 1,
+  "learning_iterations": 1000000000,
+  "rounds_convergence": 100000,
+  "Q_star_threshold": 1e-09,
+  "avg_price_rounds": 1000
+}

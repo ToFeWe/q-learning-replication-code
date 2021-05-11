@@ -1,0 +1,76 @@
+#! python
+
+
+def build(ctx):
+    for n_agents in [2, 3]:
+        # Grid Search
+        all_deps_grid = [
+            ctx.path_to(
+                ctx,
+                f"IN_SIMULATION_GRID_{n_agents}_AGENT",
+                f"simulated_arrays_{n_agents}_agents_seed_{ix}.pickle",
+            )
+            for ix in range(1, 1001)
+        ]
+        all_deps_grid.append(
+            ctx.path_to(ctx, "IN_DATA_MANAGEMENT", "utils_load_data.py")
+        )
+        ctx(
+            features="run_py_script",
+            source="load_grid_simulation_data.py",
+            target=ctx.path_to(ctx, "OUT_DATA", f"grid_{n_agents}_agents.pickle"),
+            deps=all_deps_grid,
+            append=str(n_agents),
+            name=f"load_grid_simulation_data_{n_agents}_n_agents",
+        )
+
+        # Super star simulation
+
+        all_deps_super_star = [
+            ctx.path_to(
+                ctx,
+                f"IN_SIMULATION_SUPER_STARS_{n_agents}_AGENT",
+                f"simulated_arrays_{n_agents}_agents_seed_{ix}.pickle",
+            )
+            for ix in range(1, 1001)
+        ]
+        all_deps_super_star.append(
+            ctx.path_to(ctx, "IN_DATA_MANAGEMENT", "utils_load_data.py")
+        )
+        ctx(
+            features="run_py_script",
+            source="load_super_star_data.py",
+            target=ctx.path_to(
+                ctx, "OUT_DATA", f"all_super_stars_{n_agents}_agents.pickle"
+            ),
+            deps=all_deps_super_star,
+            append=str(n_agents),
+            name=f"load_super_stars_data_{n_agents}_n_agents",
+        )
+
+        ctx(
+            features="run_py_script",
+            source="super_star_for_otree.py",
+            target=[
+                ctx.path_to(
+                    ctx, "OUT_DATA", f"otree_super_star_{n_agents}_agents.json"
+                ),
+                ctx.path_to(
+                    ctx, "OUT_DATA", f"otree_super_star_{n_agents}_agents.pickle"
+                ),
+            ],
+            deps=[
+                ctx.path_to(
+                    ctx,
+                    f"IN_SIMULATION_{n_agents}_AGENT",
+                    f"experiment_super_star_{n_agents}_agent.pickle",
+                ),
+                ctx.path_to(
+                    ctx,
+                    "IN_SIMULATION_PARAMETER",
+                    f"parameter_super_star_{n_agents}_agent.json",
+                ),
+            ],
+            append=str(n_agents),
+            name=f"super_star_for_otree_{n_agents}_n_agents",
+        )

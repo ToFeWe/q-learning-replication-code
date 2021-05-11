@@ -1,0 +1,135 @@
+#! python
+
+
+def build(ctx):
+
+    for n_agents in [2, 3]:
+        # TODO: Can I define a whole package as a dependency
+        # In my case this would be qpricesim
+        ctx(
+            features="run_py_script",
+            source="simulate_dev_no_dev.py",
+            target=[
+                ctx.path_to(
+                    ctx,
+                    "OUT_ANALYSIS",
+                    f"array_deviation_simulations_{n_agents}_agents.pickle",
+                ),
+                ctx.path_to(
+                    ctx,
+                    "OUT_ANALYSIS",
+                    f"array_no_deviation_simulations_{n_agents}_agents.pickle",
+                ),
+            ],
+            deps=[
+                ctx.path_to(
+                    ctx, "OUT_DATA", f"all_super_stars_{n_agents}_agents.pickle"
+                ),
+                ctx.path_to(ctx, "IN_MODEL_SPECS", "deviation_simulation.json"),
+                ctx.path_to(ctx, "IN_ANALYSIS", "utils_simulate_play.py"),
+                ctx.path_to(
+                    ctx,
+                    "IN_SIMULATION_PARAMETER",
+                    f"parameter_{n_agents}_agent_base.json",
+                ),
+            ],
+            append=str(n_agents),
+            name=f"simulate_dev_no_dev{n_agents}_agents",
+        )
+
+        # Check if the otree super star is IC
+        ctx(
+            features="run_py_script",
+            source="otree_super_star_ic_check.py",
+            target=[
+                ctx.path_to(
+                    ctx,
+                    "OUT_ANALYSIS",
+                    f"ic_otree_super_star_{n_agents}_agents.json",
+                )
+            ],
+            deps=[
+                ctx.path_to(
+                    ctx,
+                    "IN_SIMULATION_PARAMETER",
+                    f"parameter_super_star_{n_agents}_agent.json",
+                ),
+                ctx.path_to(ctx, "IN_MODEL_SPECS", "deviation_simulation.json"),
+                ctx.path_to(
+                    ctx,
+                    f"IN_SIMULATION_{n_agents}_AGENT",
+                    f"experiment_super_star_{n_agents}_agent.pickle",
+                ),
+                ctx.path_to(
+                    ctx,
+                    "IN_ANALYSIS",
+                    "check_ic.py",
+                ),
+                ctx.path_to(
+                    ctx,
+                    "IN_ANALYSIS",
+                    "utils_simulate_play.py",
+                ),
+            ],
+            append=str(n_agents),
+            name=f"ic_otree_super_star_{n_agents}_agents",
+        )
+
+        # Calculate how many super star markets have an agent with IC
+        # behaviour.
+        ctx(
+            features="run_py_script",
+            source="all_super_stars_ic_check.py",
+            target=[
+                ctx.path_to(
+                    ctx,
+                    "OUT_ANALYSIS",
+                    f"ic_all_super_star_{n_agents}_agents.json",
+                )
+            ],
+            deps=[
+                ctx.path_to(
+                    ctx,
+                    "IN_SIMULATION_PARAMETER",
+                    f"parameter_super_star_{n_agents}_agent.json",
+                ),
+                ctx.path_to(
+                    ctx,
+                    f"OUT_ANALYSIS",
+                    f"array_deviation_simulations_{n_agents}_agents.pickle",
+                ),
+                ctx.path_to(
+                    ctx,
+                    f"IN_ANALYSIS",
+                    f"check_ic.py",
+                ),
+            ],
+            append=str(n_agents),
+            name=f"ic_all_super_star_{n_agents}_agents",
+        )
+
+        # Play simulation starting from all possible states
+        ctx(
+            features="run_py_script",
+            source="simulate_market_all_states.py",
+            target=[
+                ctx.path_to(
+                    ctx,
+                    "OUT_ANALYSIS",
+                    f"array_all_state_simulations_{n_agents}_agents.pickle",
+                )
+            ],
+            deps=[
+                ctx.path_to(
+                    ctx,
+                    "IN_SIMULATION_PARAMETER",
+                    f"parameter_super_star_{n_agents}_agent.json",
+                ),
+                ctx.path_to(ctx, "IN_MODEL_SPECS", "deviation_simulation.json"),
+                ctx.path_to(
+                    ctx, "OUT_DATA", f"all_super_stars_{n_agents}_agents.pickle"
+                ),
+            ],
+            append=str(n_agents),
+            name=f"simulate_market_all_states{n_agents}_agents",
+        )

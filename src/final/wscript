@@ -1,0 +1,53 @@
+#! python
+
+
+def build(ctx):
+    # Loop over all metrics and 2/3 agent markets
+    all_metrics = [
+        "state_profitability",
+        "weighted_profitability",
+        "best_response_share",
+        "avg_profit",
+        "avg_price",
+        "nash_equilibrium",
+    ]
+    for n_agents in [2, 3]:
+        for metric in all_metrics:
+            for with_super_star in ["with", "without"]:
+                ctx(
+                    features="run_py_script",
+                    source="plot_heatmaps.py",
+                    deps=ctx.path_to(ctx, "OUT_DATA", f"grid_{n_agents}_agents.pickle"),
+                    target=ctx.path_to(
+                        ctx,
+                        "OUT_FIGURES",
+                        f"heatmap_{metric}_{with_super_star}_super_star_{n_agents}_n_agents.pdf",
+                    ),
+                    append=[str(n_agents), metric, with_super_star],
+                    name=f"plot_heatmaps_{n_agents}",
+                )
+
+    # Plot deviation figures
+    for n_agents in [2, 3]:
+        ctx(
+            features="run_py_script",
+            source="plot_deviation.py",
+            deps=[
+                ctx.path_to(
+                    ctx,
+                    "OUT_ANALYSIS",
+                    f"array_deviation_simulations_{n_agents}_agents.pickle",
+                ),
+                ctx.path_to(ctx, "IN_MODEL_SPECS", "deviation_simulation.json"),
+                ctx.path_to(
+                    ctx,
+                    "IN_SIMULATION_PARAMETER",
+                    f"parameter_{n_agents}_agent_base.json",
+                ),
+            ],
+            target=ctx.path_to(
+                ctx, "OUT_FIGURES", f"deviation_plot_{n_agents}_agents.pdf"
+            ),
+            append=[str(n_agents)],
+            name=f"plot_deviation_{n_agents}",
+        )
