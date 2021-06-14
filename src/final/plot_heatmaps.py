@@ -230,7 +230,7 @@ def add_best_agent(ax, parameter_cases, parameter_super_star):
     # Note that the alpha dimension has been Flip up-down to have
     # the smallest value in the bottom left corner.
     alpha_index = alpha_grid[::-1].index(parameter_super_star["learning_rate"])
-
+    # TODO: Is the order here correct?! Not first alpha and then beta?!?! TODO
     ax.plot(beta_index, alpha_index, "x", markersize=5)[0]
     return ax
 

@@ -100,3 +100,4 @@ bld
 *.prof
 .ipynb_checkpoints
 qpricesim
+note_about_session.txt

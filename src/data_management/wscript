@@ -2,6 +2,28 @@
 
 
 def build(ctx):
+
+    # Experimental data
+    ctx(
+        features="run_py_script",
+        source="clean_experimental_data.py",
+        target=[
+            ctx.path_to(ctx, "OUT_DATA", f"data_individual_level.pickle"),
+            ctx.path_to(ctx, "OUT_DATA", f"data_individual_level.feather"),
+            ctx.path_to(ctx, "OUT_DATA", f"data_individual_level.csv"),
+            ctx.path_to(ctx, "OUT_DATA", f"data_group_level.pickle"),
+            ctx.path_to(ctx, "OUT_DATA", f"data_group_level.feather"),
+            ctx.path_to(ctx, "OUT_DATA", f"data_group_level.csv"),
+            ],
+        deps=[            
+            ctx.path_to(ctx, "IN_DATA", "session_info_experiments.json"),
+            ctx.path_to(ctx, "IN_DATA_MANAGEMENT", "utils_experimental_data.py"),
+            # TODO: Add experimental data here
+        ],
+        name=f"clean_experimental_data",
+    )
+
+    # Simulation data
     for n_agents in [2, 3]:
         # Grid Search
         all_deps_grid = [
@@ -73,4 +95,40 @@ def build(ctx):
             ],
             append=str(n_agents),
             name=f"super_star_for_otree_{n_agents}_n_agents",
+        )
+
+    # Part of the simulation data we use for the comparisons to 
+    # experimental data.
+    for n_agents in [2, 3]:
+        ctx(
+            features="run_py_script",
+            source="subset_simulation_data.py",
+            target=[
+                ctx.path_to(
+                    ctx, "OUT_DATA", f"super_star_avg_prices_{n_agents}_agents.pickle"
+                ),
+                ctx.path_to(
+                    ctx, "OUT_DATA", f"entire_price_grid_avg_prices_{n_agents}_agents.pickle"
+                ),
+            ],
+            deps=[
+                ctx.path_to(
+                    ctx,
+                    f"IN_SIMULATION_PARAMETER",
+                    f"parameter_super_star_{n_agents}_agent.json",
+                ),
+                ctx.path_to(
+                    ctx,
+                    "IN_SIMULATION_PARAMETER",
+                    f"parameter_{n_agents}_agent_cases.json",
+                ),
+                ctx.path_to(
+                    ctx,
+                    "OUT_DATA",
+                    f"grid_{n_agents}_agents.pickle",
+                ),
+
+            ],
+            append=str(n_agents),
+            name=f"subset_simulation_data_{n_agents}_n_agents",
         )

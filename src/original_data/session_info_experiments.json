@@ -1,0 +1,57 @@
+{
+    "session_20052021_1000": {
+       "path": "experiment_data/session/20052021_1000/all_apps_wide_2021-05-20.csv"
+    },
+    "session_20052021_1200": {
+       "path": "experiment_data/session/20052021_1200/all_apps_wide_2021-05-20.csv"
+    },
+    "session_21052021_1000": {
+       "path": "experiment_data/session/21052021_1000/all_apps_wide_2021-05-21.csv"
+    },
+    "session_21052021_1200": {
+       "path": "experiment_data/session/21052021_1200/all_apps_wide_2021-05-21.csv"
+    },
+    "session_21052021_1400": {
+       "path": "experiment_data/session/21052021_1400/all_apps_wide_2021-05-21.csv"
+    },
+    "session_25052021_1000": {
+       "path": "experiment_data/session/25052021_1000/all_apps_wide_2021-05-25.csv"
+    },
+    "session_25052021_1200": {
+       "path": "experiment_data/session/25052021_1200/all_apps_wide_2021-05-25.csv"
+    },
+    "session_25052021_1400": {
+       "path": "experiment_data/session/25052021_1400/all_apps_wide_2021-05-25.csv"
+    },
+    "session_02062021_1000": {
+       "path": "experiment_data/session/02062021_1000/all_apps_wide_2021-06-02.csv"
+    },
+    "session_02062021_1130": {
+       "path": "experiment_data/session/02062021_1130/all_apps_wide_2021-06-02.csv"
+    },
+    "session_02062021_1300": {
+       "path": "experiment_data/session/02062021_1300/all_apps_wide_2021-06-02.csv"
+    },
+    "session_07062021_1000": {
+       "path": "experiment_data/session/07062021_1000/all_apps_wide_2021-06-07.csv"
+    },
+    "session_07062021_1130": {
+       "path": "experiment_data/session/07062021_1130/all_apps_wide_2021-06-07.csv"
+    },
+    "session_07062021_1300": {
+       "path": "experiment_data/session/07062021_1300/all_apps_wide_2021-06-07.csv"
+    },
+    "session_08062021_1330": {
+       "path": "experiment_data/session/08062021_1330/all_apps_wide_2021-06-08.csv"
+    },
+    "session_08062021_1500": {
+       "path": "experiment_data/session/08062021_1500/all_apps_wide_2021-06-08.csv"
+    },
+    "session_08062021_1630_1H2A": {
+       "path": "experiment_data/session/08062021_1630/1H2A_part/all_apps_wide_2021-06-08.csv"
+    },
+    "session_08062021_1630_3H0A": {
+       "path": "experiment_data/session/08062021_1630/3H0A_part/all_apps_wide_2021-06-08.csv"
+    }
+ }
+ 
