@@ -52,6 +52,9 @@
     },
     "session_08062021_1630_3H0A": {
        "path": "experiment_data/session/08062021_1630/3H0A_part/all_apps_wide_2021-06-08.csv"
-    }
+    },
+    "session_17062021_1600": {
+      "path": "experiment_data/session/17062021_1600/all_apps_wide_2021-06-17.csv"
+   }
  }
  
