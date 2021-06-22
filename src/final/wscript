@@ -106,3 +106,21 @@ def build(ctx):
         ),
         name=f"plot_bar_charts_experiments",
     )
+    # Line plot for all experiment treatments by super game, treatment and round
+
+    ctx(
+        features="run_py_script",
+        source="plot_line_plot_experimental_markets.py",
+        deps=[
+
+            ctx.path_to(
+                ctx,
+                "OUT_DATA",
+                f"data_group_level.pickle",
+            )
+        ],
+        target=ctx.path_to(
+            ctx, "OUT_FIGURES", f"line_plot_experiments_winning_price.pdf"
+        ),
+        name=f"plot_line_plot_experimental_markets",
+    )

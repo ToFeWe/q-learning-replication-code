@@ -111,9 +111,11 @@ def make_bar_plot_experiments(agg_level, data_in, all_treatments):
 
 
 if __name__ == '__main__':
+    # Setup for matplotlib
     plt.style.use('seaborn-whitegrid')
     plt.rcParams.update({'font.size': 20})
-    
+    rc('text', usetex=True)
+
     with open(ppj("OUT_DATA", "data_group_level.pickle"), "rb") as f:
         data_group_level_in = pickle.load(f)
     
