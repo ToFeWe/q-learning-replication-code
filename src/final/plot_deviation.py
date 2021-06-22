@@ -14,11 +14,18 @@ import numpy as np
 from bld.project_paths import project_paths_join as ppj
 
 
-# matplotlib.rcParams.update({'font.size': 14})
 
 
 def make_plot(devation_array, parameter_deviation, parameter_market, out_path):
-    plt.style.use(["seaborn-whitegrid"])
+    """
+    A function to make the deviation plots.
+
+    Args:
+        devation_array (array): Array with the price sequences with a deviation
+        parameter_deviation (dict): Parameters for the deviation simulation
+        parameter_market (dict): Parameters that describe the market environment
+        out_path (string): filename/path where to save the graph
+    """
     periods_to_consider = parameter_deviation["total_plotting_periods"]
 
     # We cut the first periods as they have a higher variation given that
@@ -43,7 +50,7 @@ def make_plot(devation_array, parameter_deviation, parameter_market, out_path):
     fig, ax = plt.subplots(figsize=[10, 6])  # TODO: do it general?
 
     for agent_i in range(n_agent):
-        markers, caps, bars = ax.errorbar(
+        _, caps, bars = ax.errorbar(
             x_axis,
             prices_mean[:, agent_i],
             yerr=prices_std[:, agent_i],
@@ -62,13 +69,15 @@ def make_plot(devation_array, parameter_deviation, parameter_market, out_path):
     ax.set_ylabel("Price")
     ax.set_xticks(x_axis)
     ax.set_yticks([0, 1, 2, 3, 4, 5])  # TODO: do it general?
-    ax.legend()
+    ax.tick_params(axis='both', which='major', labelsize=20)
+    ax.legend(fontsize=20)
     fig.savefig(out_path, bbox_inches="tight")
 
 
 if __name__ == "__main__":
     N_AGENTS = sys.argv[1]
-
+    
+    
     with open(
         ppj("IN_SIMULATION_PARAMETER", f"parameter_{N_AGENTS}_agent_base.json")
     ) as f:
@@ -84,6 +93,10 @@ if __name__ == "__main__":
         ARRAY_DEVIATION_SIMULATION = pickle.load(f)
 
     OUT_PATH = ppj("OUT_FIGURES", f"deviation_plot_{N_AGENTS}_agents.pdf")
+
+    # Change fontsize and style
+    matplotlib.rcParams.update({'font.size': 20})
+    plt.style.use('seaborn-whitegrid')
 
     make_plot(
         devation_array=ARRAY_DEVIATION_SIMULATION,

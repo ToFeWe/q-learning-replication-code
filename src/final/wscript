@@ -51,3 +51,40 @@ def build(ctx):
             append=[str(n_agents)],
             name=f"plot_deviation_{n_agents}",
         )
+
+    # Plot human v algo bar plot
+    ctx(
+        features="run_py_script",
+        source="plot_human_v_algo_bar_charts.py",
+        deps=[
+            ctx.path_to(
+                ctx,
+                "OUT_DATA",
+                f"entire_price_grid_avg_prices_2_agents.pickle",
+            ),
+            ctx.path_to(
+                ctx,
+                "OUT_DATA",
+                f"entire_price_grid_avg_prices_3_agents.pickle",
+            ),
+            ctx.path_to(
+                ctx,
+                "OUT_DATA",
+                f"super_star_avg_prices_2_agents.pickle",
+            ),
+            ctx.path_to(
+                ctx,
+                "OUT_DATA",
+                f"super_star_avg_prices_3_agents.pickle",
+            ),
+            ctx.path_to(
+                ctx,
+                "OUT_DATA",
+                f"data_group_level.pickle",
+            ),
+        ],
+        target=ctx.path_to(
+            ctx, "OUT_FIGURES", f"bar_plot_human_v_algos.pdf"
+        ),
+        name=f"plot_human_v_algo_bar_charts",
+    )
