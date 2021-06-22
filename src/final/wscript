@@ -88,3 +88,21 @@ def build(ctx):
         ),
         name=f"plot_human_v_algo_bar_charts",
     )
+
+    # Plot experimental bar chart
+    ctx(
+        features="run_py_script",
+        source="plot_bar_charts_experiments.py",
+        deps=[
+
+            ctx.path_to(
+                ctx,
+                "OUT_DATA",
+                f"data_group_level.pickle",
+            )
+        ],
+        target=ctx.path_to(
+            ctx, "OUT_FIGURES", f"bar_plot_experiments_winning_price.pdf"
+        ),
+        name=f"plot_bar_charts_experiments",
+    )

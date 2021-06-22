@@ -3,11 +3,8 @@
 A module to plot the bar chart that compares
 human and algorithms.
 """
-import json
 import pickle
-import sys
 
-import matplotlib
 from matplotlib import rc
 
 import seaborn as sns
@@ -17,24 +14,24 @@ import numpy as np
 from bld.project_paths import project_paths_join as ppj
 
 
-def create_value_dict(data_last_super_game_agg_in,
-                      super_star_avg_prices_2_agents_in,
-                      super_star_avg_prices_3_agents_in,
-                      entire_price_grid_avg_prices_2_agents_in,
-                      entire_price_grid_avg_prices_3_agents_in):
+def create_value_dict(data_last_super_game_agg,
+                      super_star_avg_prices_2_agents,
+                      super_star_avg_prices_3_agents,
+                      entire_price_grid_avg_prices_2_agents,
+                      entire_price_grid_avg_prices_3_agents):
     """
     A function to create a comprehensive dictionary with all
     values that we need to create the plot.
 
     Args:
-        data_last_super_game_agg_in (DataFrame): DataFrame with experimental results
-        super_star_avg_prices_2_agents_in (array): Average prices of super star markets upon convergence
+        data_last_super_game_agg (DataFrame): DataFrame with experimental results
+        super_star_avg_prices_2_agents (array): Average prices of super star markets upon convergence
                                                    (2 firm market).
-        super_star_avg_prices_3_agents_in (array): Average prices of super star markets upon convergence
+        super_star_avg_prices_3_agents (array): Average prices of super star markets upon convergence
                                                    (3 firm market).
-        entire_price_grid_avg_prices_2_agents_in (array): Average prices of the entire grid upon convergence
+        entire_price_grid_avg_prices_2_agents (array): Average prices of the entire grid upon convergence
                                                           (2 firm market).
-        entire_price_grid_avg_prices_3_agents_in (array): Average prices of the entire grid upon convergence
+        entire_price_grid_avg_prices_3_agents (array): Average prices of the entire grid upon convergence
                                                           (3 firm market).
     Returns:
         dict: Dictionary with values for plotting
@@ -46,13 +43,13 @@ def create_value_dict(data_last_super_game_agg_in,
     plotting_dict['Humans'] = {}
     plotting_dict['Humans']['means'] = list()
     plotting_dict['Humans']['means'].extend(
-        [data_last_super_game_agg_in.loc[data_last_super_game_agg_in['treatment'] == '2H0A']['winning_price'].mean(),
-         data_last_super_game_agg_in.loc[data_last_super_game_agg_in['treatment'] == '3H0A']['winning_price'].mean()]
+        [data_last_super_game_agg.loc[data_last_super_game_agg['treatment'] == '2H0A']['winning_price'].mean(),
+         data_last_super_game_agg.loc[data_last_super_game_agg['treatment'] == '3H0A']['winning_price'].mean()]
     )
     plotting_dict['Humans']['std'] = list()
     plotting_dict['Humans']['std'].extend(
-        [data_last_super_game_agg_in.loc[data_last_super_game_agg_in['treatment'] == '2H0A']['winning_price'].std(),
-         data_last_super_game_agg_in.loc[data_last_super_game_agg_in['treatment'] == '3H0A']['winning_price'].std()]
+        [data_last_super_game_agg.loc[data_last_super_game_agg['treatment'] == '2H0A']['winning_price'].std(),
+         data_last_super_game_agg.loc[data_last_super_game_agg['treatment'] == '3H0A']['winning_price'].std()]
     )
 
     # Now the algorithm markets
@@ -61,25 +58,25 @@ def create_value_dict(data_last_super_game_agg_in,
     plotting_dict['Best algorithm'] = {}
     plotting_dict['Best algorithm']['means'] = list()
     plotting_dict['Best algorithm']['means'].extend(
-        [super_star_avg_prices_2_agents_in.mean(),
-         super_star_avg_prices_3_agents_in.mean()]
+        [super_star_avg_prices_2_agents.mean(),
+         super_star_avg_prices_3_agents.mean()]
     )
     plotting_dict['Best algorithm']['std'] = list()
     plotting_dict['Best algorithm']['std'].extend(
-        [super_star_avg_prices_2_agents_in.std(),
-         super_star_avg_prices_3_agents_in.std()]
+        [super_star_avg_prices_2_agents.std(),
+         super_star_avg_prices_3_agents.std()]
     )
 
     plotting_dict['Average algorithm'] = {}
     plotting_dict['Average algorithm']['means'] = list()
     plotting_dict['Average algorithm']['means'].extend(
-        [entire_price_grid_avg_prices_2_agents_in.mean(),
-         entire_price_grid_avg_prices_3_agents_in.mean()]
+        [entire_price_grid_avg_prices_2_agents.mean(),
+         entire_price_grid_avg_prices_3_agents.mean()]
     )
     plotting_dict['Average algorithm']['std'] = list()
     plotting_dict['Average algorithm']['std'].extend(
-        [entire_price_grid_avg_prices_2_agents_in.std(),
-         entire_price_grid_avg_prices_3_agents_in.std()]
+        [entire_price_grid_avg_prices_2_agents.std(),
+         entire_price_grid_avg_prices_3_agents.std()]
     )
 
     return plotting_dict
@@ -169,15 +166,15 @@ if __name__ == '__main__':
     # Load the data
     # Two firm algorithm markets
     with open(ppj("OUT_DATA", "entire_price_grid_avg_prices_2_agents.pickle"), "rb") as f:
-        entire_price_grid_avg_prices_2_agents = pickle.load(f)
+        entire_price_grid_avg_prices_2_agents_in = pickle.load(f)
     with open(ppj("OUT_DATA", "super_star_avg_prices_2_agents.pickle"), "rb") as f:
-        super_star_avg_prices_2_agents = pickle.load(f)
+        super_star_avg_prices_2_agents_in = pickle.load(f)
 
     # Three firm algorithm markets
     with open(ppj("OUT_DATA", "entire_price_grid_avg_prices_3_agents.pickle"), "rb") as f:
-        entire_price_grid_avg_prices_3_agents = pickle.load(f)
+        entire_price_grid_avg_prices_3_agents_in = pickle.load(f)
     with open(ppj("OUT_DATA", "super_star_avg_prices_3_agents.pickle"), "rb") as f:
-        super_star_avg_prices_3_agents = pickle.load(f)
+        super_star_avg_prices_3_agents_in = pickle.load(f)
 
     # Load the data from the humans
     with open(ppj("OUT_DATA", "data_group_level.pickle"), "rb") as f:
@@ -192,15 +189,15 @@ if __name__ == '__main__':
 
     # Aggregate the human data by super_group_id_general which gives us the mean
     # for each independent observation in the last super game
-    data_last_super_game_agg = data_last_super_game.groupby(
+    data_last_super_game_agg_in = data_last_super_game.groupby(
         ['super_group_id_general', 'treatment'], as_index=False)[['winning_price']].mean()
 
     # Create plotting dict
     PLOTTING_DICT = create_value_dict(
-        data_last_super_game_agg_in=data_last_super_game_agg,
-        super_star_avg_prices_2_agents_in=super_star_avg_prices_2_agents,
-        super_star_avg_prices_3_agents_in=super_star_avg_prices_3_agents,
-        entire_price_grid_avg_prices_2_agents_in=entire_price_grid_avg_prices_2_agents,
-        entire_price_grid_avg_prices_3_agents_in=entire_price_grid_avg_prices_3_agents)
+        data_last_super_game_agg=data_last_super_game_agg_in,
+        super_star_avg_prices_2_agents=super_star_avg_prices_2_agents_in,
+        super_star_avg_prices_3_agents=super_star_avg_prices_3_agents_in,
+        entire_price_grid_avg_prices_2_agents=entire_price_grid_avg_prices_2_agents_in,
+        entire_price_grid_avg_prices_3_agents=entire_price_grid_avg_prices_3_agents_in)
     # Make the plot
     make_human_v_algo_plot(plotting_dict_in=PLOTTING_DICT)
