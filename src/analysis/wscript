@@ -133,3 +133,63 @@ def build(ctx):
             append=str(n_agents),
             name=f"simulate_market_all_states{n_agents}_agents",
         )
+    
+    # Type clustering of the experimental data with individual choice
+
+    for treatment in ['1H1A', '1H2A']:
+        # Play simulation starting from all possible states
+        ctx(
+            features="run_py_script",
+            source="type_clustering.py",
+            target=[
+                ctx.path_to(
+                    ctx,
+                    "OUT_ANALYSIS",
+                    f"data_individual_with_types_{treatment}.pickle",
+                ),
+                ctx.path_to(
+                    ctx,
+                    "OUT_ANALYSIS",
+                    f"data_individual_with_types_{treatment}.csv",
+                )
+            ],
+            deps=[
+                ctx.path_to(
+                    ctx, "OUT_DATA", f"data_individual_level.pickle"
+                ),
+            ],
+            append=treatment,
+            name=f"type_clustering_{treatment}",
+        )
+    
+    # Analysis those clusters
+    ctx(
+        features="run_py_script",
+        source="cluster_analysis.py",
+        target=[
+            ctx.path_to(
+                ctx, "OUT_ANALYSIS", "cluster_shares.json"
+            ),
+            ctx.path_to(
+                ctx, "OUT_ANALYSIS", "p_values_cluster_analysis.json"
+            ),
+        ],
+        deps=[
+            ctx.path_to(
+                ctx,
+                "OUT_ANALYSIS",
+                "data_individual_with_types_1H2A.pickle",
+            ),
+            ctx.path_to(
+                ctx,
+                "OUT_ANALYSIS",
+                "data_individual_with_types_1H1A.pickle",
+            ),
+            ctx.path_to(
+                ctx,
+                "OUT_DATA",
+                "data_group_level.pickle",
+            )
+        ],
+        name="cluster_analysis",
+    )
