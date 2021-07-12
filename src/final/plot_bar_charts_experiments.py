@@ -80,7 +80,7 @@ def make_bar_plot_experiments(agg_level, data_in, all_treatments):
         ax.set_ylim([0,1])
 
     ax.set_xticks([])
-    #     ax.set_xticklabels(['Super game 1', 'Super game 2', 'Super game 3'])
+    ax.set_ylabel('Mean market price')
 
     # Create the label (VOD rate) over the error bar
     rects = ax.patches

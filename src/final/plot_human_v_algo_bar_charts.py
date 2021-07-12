@@ -55,28 +55,16 @@ def create_value_dict(data_last_super_game_agg,
     # Now the algorithm markets
     # First the super star
 
-    plotting_dict['Best algorithm'] = {}
-    plotting_dict['Best algorithm']['means'] = list()
-    plotting_dict['Best algorithm']['means'].extend(
+    plotting_dict['Algorithm'] = {}
+    plotting_dict['Algorithm']['means'] = list()
+    plotting_dict['Algorithm']['means'].extend(
         [super_star_avg_prices_2_agents.mean(),
          super_star_avg_prices_3_agents.mean()]
     )
-    plotting_dict['Best algorithm']['std'] = list()
-    plotting_dict['Best algorithm']['std'].extend(
+    plotting_dict['Algorithm']['std'] = list()
+    plotting_dict['Algorithm']['std'].extend(
         [super_star_avg_prices_2_agents.std(),
          super_star_avg_prices_3_agents.std()]
-    )
-
-    plotting_dict['Average algorithm'] = {}
-    plotting_dict['Average algorithm']['means'] = list()
-    plotting_dict['Average algorithm']['means'].extend(
-        [entire_price_grid_avg_prices_2_agents.mean(),
-         entire_price_grid_avg_prices_3_agents.mean()]
-    )
-    plotting_dict['Average algorithm']['std'] = list()
-    plotting_dict['Average algorithm']['std'].extend(
-        [entire_price_grid_avg_prices_2_agents.std(),
-         entire_price_grid_avg_prices_3_agents.std()]
     )
 
     return plotting_dict
@@ -85,7 +73,7 @@ def create_value_dict(data_last_super_game_agg,
 def make_human_v_algo_plot(plotting_dict_in):
     # set width of bar
 
-    barWidth = 0.17
+    barWidth = 0.35
     distance = 0
     all_colors = sns.color_palette('colorblind')
 
@@ -94,7 +82,7 @@ def make_human_v_algo_plot(plotting_dict_in):
 
     all_groups = list(plotting_dict_in.keys())
 
-    all_r = [np.arange(2) + barWidth * x for x in range(3)]
+    all_r = [np.arange(2) + barWidth * x for x in range(2)]
 
     # Make the plot
     for ix_group, group in enumerate(all_groups):
@@ -127,19 +115,17 @@ def make_human_v_algo_plot(plotting_dict_in):
     labels_bars = [
         '\\textsc{2H0A}',
         '\\textsc{3H0A}',
-        '\\textsc{0H2A} \n \\textit{(Best)}',
-        '\\textsc{0H3A} \n \\textit{(Best)}',
-        '\\textsc{0H2A} \n  \\textit{(Average)}',
-        '\\textsc{0H3A} \n \\textit{(Average)}']
+        '\\textsc{0H2A}',
+        '\\textsc{0H3A}']
 
     ax.set_xticks(label_ticks_pos)
     ax.set_xticklabels(labels_bars)
 
     # Adding top labels with matplotlib magic numbers
-    ax.text(0.06, 4.7, 'Two firm markets', fontsize=25)
-    ax.text(1.02, 4.7, 'Three firm markets', fontsize=25)
+    ax.text(0.01, 4.7, 'Two firm markets', fontsize=25)
+    ax.text(1.00, 4.7, 'Three firm markets', fontsize=25)
 
-    hatches = ['/', '/', '\\', '\\', '|', '|']
+    hatches = ['/', '/', '\\', '\\']
 
     # Loop over the bars to add hatches
     for i, thisbar in enumerate(rects):
@@ -147,7 +133,7 @@ def make_human_v_algo_plot(plotting_dict_in):
         thisbar.set_hatch(hatches[i])
 
     # Create legend & Show graphic
-    ax.legend(loc='lower center', bbox_to_anchor=(0.5, -0.2), ncol=3)
+    ax.legend(loc='lower center', bbox_to_anchor=(0.5, -0.14), ncol=3)
     
     # Turn of xaxis grid
     plt.gca().xaxis.grid(False)

@@ -91,9 +91,15 @@ def make_line_plot(agg_level, data_in, all_treatments):
             label='Monopoly price',
             colors='black')
 
+    # Add ylabel
+    axes[0].set_ylabel('Mean market price')
+
+
+    # Add legend
     axes[1].legend(
         loc='lower center', bbox_to_anchor=(
             0.5, -0.36), ncol=3, fontsize=20)
+
 
     # Save the figure
     fig.savefig(ppj("OUT_FIGURES", f"line_plot_experiments_{agg_level}.pdf"),
