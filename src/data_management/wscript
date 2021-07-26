@@ -23,6 +23,21 @@ def build(ctx):
         name=f"clean_experimental_data",
     )
 
+    # Payment data
+    ctx(
+        features="run_py_script",
+        source="create_payoff_info.py",
+        target=[
+            ctx.path_to(ctx, "OUT_DATA", f"data_payment_algorithms.csv"),
+            ctx.path_to(ctx, "OUT_DATA", f"payment_and_N_info.json"),
+            ],
+        deps=[            
+            ctx.path_to(ctx, "OUT_DATA", "data_individual_level.pickle"),
+            ctx.path_to(ctx, "IN_DATA", "session_info_experiments.json"),
+        ],
+        name=f"create_payoff_info",
+    )
+
     # Simulation data
     for n_agents in [2, 3]:
         # Grid Search

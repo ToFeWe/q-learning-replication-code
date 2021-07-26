@@ -61,9 +61,16 @@ def make_bar_plot_experiments(agg_level, data_in, all_treatments):
                     ].groupby(['super_group_id_general']).mean()[agg_level].sem()
         )
 
-
+    # Change the position of the bars with some magic
+    all_r = []
+    for x in range(len(all_treatments)):
+        new_r = np.arange(1) + barWidth*x
         
-    all_r = [np.arange(1) + barWidth*x for x in range(len(all_treatments))] 
+        if x == 2:
+            new_r = np.arange(1) + barWidth*x + barWidth /2
+        elif x > 2:
+            new_r = all_r[x-1] + barWidth
+        all_r.append(new_r)
 
     # Make the plot
     for ix_treatment, treatment in enumerate(all_treatments):
