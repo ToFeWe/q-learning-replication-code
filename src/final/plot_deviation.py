@@ -8,6 +8,7 @@ import pickle
 import sys
 
 import matplotlib
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -35,7 +36,7 @@ def make_plot(devation_array, parameter_deviation, parameter_market, out_path):
     cut_first_periods = parameter_deviation["cut_first_periods"]
     n_agent = parameter_market["n_agent"]
     all_marker = ["o", "x", "*"]
-    all_label = ["Agent 1", "Agent 2", "Agent 3"]
+    all_label = ["Firm 1", "Firm 2", "Firm 3"]
     all_color = ["#3498db", "#e74c3c", "#2ecc71"]
 
     x_axis = np.arange(1, periods_to_consider - cut_first_periods + 1)
@@ -47,7 +48,8 @@ def make_plot(devation_array, parameter_deviation, parameter_market, out_path):
     prices_std = np.std(np.array(array_to_plot), axis=0)
     prices_mean = np.mean(np.array(array_to_plot), axis=0)
 
-    fig, ax = plt.subplots(figsize=[10, 6])  # TODO: do it general?
+    # fig, ax = plt.subplots(figsize=[10, 6])  # TODO: do it general?
+    fig, ax = plt.subplots(figsize=(5,3.6))
 
     for agent_i in range(n_agent):
         _, caps, bars = ax.errorbar(
@@ -64,20 +66,33 @@ def make_plot(devation_array, parameter_deviation, parameter_market, out_path):
         [bar.set_alpha(0.3) for bar in bars]
         [cap.set_alpha(0.3) for cap in caps]
 
-    ax.set_ylim([0, 6])  # TODO: do it general?
+    ax.set_ylim([0, 5])
     ax.set_xlabel("t")
     ax.set_ylabel("Price")
     ax.set_xticks(x_axis)
-    ax.set_yticks([0, 1, 2, 3, 4, 5])  # TODO: do it general?
-    ax.tick_params(axis='both', which='major', labelsize=20)
-    ax.legend(fontsize=20)
-    fig.savefig(out_path, bbox_inches="tight")
+    ax.set_yticks([0, 1, 2, 3, 4, 5])
+    ax.tick_params(axis='both', which='major', labelsize=12)
+    ax.legend(fontsize=12, loc='lower right')
+    #loc=(1,0.5))
+
+    # Set labelsize
+    ax.tick_params(axis='x', labelsize=12)
+    ax.tick_params(axis='y', labelsize=12) 
+
+    fig.savefig(out_path, bbox_inches="tight", pad_inches = 0)
 
 
 if __name__ == "__main__":
     N_AGENTS = sys.argv[1]
-    
-    
+   
+    # Change font to look similar to latex
+    # I cannot use Latex backend here with waf and matplotlib
+    plt.style.use('seaborn-whitegrid')
+    mpl.rc('font', family='serif') 
+    mpl.rc('font', serif='Century') 
+    plt.rcParams.update({'font.size': 12,
+                         'axes.titlesize': 12})    
+
     with open(
         ppj("IN_SIMULATION_PARAMETER", f"parameter_{N_AGENTS}_agent_base.json")
     ) as f:
@@ -95,8 +110,6 @@ if __name__ == "__main__":
     OUT_PATH = ppj("OUT_FIGURES", f"deviation_plot_{N_AGENTS}_agents.pdf")
 
     # Change fontsize and style
-    matplotlib.rcParams.update({'font.size': 20})
-    plt.style.use('seaborn-whitegrid')
 
     make_plot(
         devation_array=ARRAY_DEVIATION_SIMULATION,

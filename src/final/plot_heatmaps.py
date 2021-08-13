@@ -73,7 +73,7 @@ def value_function_heatmap(array_list, fun, n_agents, parameter_cases):
     fig, ax = plt.subplots(figsize=(2.5,1.8))
 
     # V^C = (1/(1-0.95)) * m_consumers * p^m / n_firms
-    # V^D = (1/(1-0.95)) * m_consumers * p^NE / n_firms
+    # V^NE = (1/(1-0.95)) * m_consumers * p^NE / n_firms
     # Numpy Axis is always zero
     if n_agents == "3":
         # Flip up-down to have the smallest value in the bottom left corner
@@ -87,7 +87,7 @@ def value_function_heatmap(array_list, fun, n_agents, parameter_cases):
         cbar.set_ticklabels(
             [
                 "0",
-                "$V^D=400$",
+                "$V^NE=400$",
                 "$V^C=1600$",
             ]
         )
@@ -112,7 +112,7 @@ def value_function_heatmap(array_list, fun, n_agents, parameter_cases):
         cbar.set_ticklabels(
             [
                 "0",
-                "$V^D=600$",
+                "$V^NE=600$",
                 "$V^C=2400$",
             ]
         )
@@ -147,7 +147,7 @@ def zero_one_heatmap(array_list, fun, n_agents, parameter_cases):
 
     ax = set_ticks_heatmap(axis_in=ax, parameter_cases=parameter_cases)
     # Add title
-    if n_agents == 2:
+    if n_agents == "2":
         ax.set_title("0H2A")
     else:
         ax.set_title("0H3A")
@@ -180,7 +180,7 @@ def price_heatmap(array_list, fun, n_agents, parameter_cases):
     ax = set_ticks_heatmap(axis_in=ax, parameter_cases=parameter_cases)
 
     # Add title
-    if n_agents == 2:
+    if n_agents == "2":
         ax.set_title("0H2A")
     else:
         ax.set_title("0H3A")

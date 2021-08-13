@@ -1,6 +1,6 @@
 {
     "total_periods": 100,
-    "cut_first_periods": 5,
+    "cut_first_periods": 9,
     "periods_before_deviation": 10,
     "total_plotting_periods": 20
   }
