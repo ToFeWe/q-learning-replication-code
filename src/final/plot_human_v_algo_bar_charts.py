@@ -78,7 +78,9 @@ def make_human_v_algo_plot(plotting_dict_in):
     barWidth = 0.35
     distance = 0
     spacing_groups= 1.7
-    all_colors = sns.color_palette('colorblind')
+    algo_color = sns.color_palette('colorblind')[7]
+    human_color = sns.color_palette('colorblind')[1]
+    all_colors = [algo_color, human_color]
 
     fig, ax = plt.subplots(figsize=(5,3.6))
     # fig.set_size_inches(18.5, 10.5)
@@ -160,7 +162,7 @@ def make_human_v_algo_plot(plotting_dict_in):
     ax.text(1.56, 4.7, 'Three firm markets', fontsize=12)
     ax.tick_params(axis='both', which='major', labelsize=8)
 
-    hatches = ['/', '/','/','/','/','/', '\\', '\\']
+    hatches = ['..', '..','..','..','..','..', '/', '/']
 
     # Loop over the bars to add hatches
     for i, thisbar in enumerate(rects):
@@ -170,7 +172,7 @@ def make_human_v_algo_plot(plotting_dict_in):
     # Create legend & Show graphic
     ax.legend(loc='lower center', bbox_to_anchor=(0.52, -0.25), ncol=2)
     
-    # Turn of xaxis grid
+    # Turn off xaxis grid
     plt.gca().xaxis.grid(False)
     
     # Save the figure

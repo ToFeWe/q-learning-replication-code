@@ -6,7 +6,7 @@ the outcomes in the experimental treatments.
 
 import pickle
 
-from matplotlib import rc
+import matplotlib as mpl
 
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -25,7 +25,7 @@ def make_bar_plot_experiments(agg_level, data_in, all_treatments):
         all_treatments (list): List with all treatment indicators
     """
     # set width of bar
-    barWidth = 0.05
+    barWidth = 0.35
     distance = 0
 
     # Hand picked colors
@@ -40,8 +40,7 @@ def make_bar_plot_experiments(agg_level, data_in, all_treatments):
                 'X',] 
 
 
-    fig, ax = plt.subplots(1)
-    fig.set_size_inches(12.5, 10.5)
+    fig, ax = plt.subplots(figsize=(5,3.6))
 
 
     # Create a plotting dict for ease of use when 
@@ -58,7 +57,7 @@ def make_bar_plot_experiments(agg_level, data_in, all_treatments):
         plotting_dict[treatment]['error_bar'].append(
                     data_in.loc[
                         (data_in['treatment'] == treatment)
-                    ].groupby(['super_group_id_general']).mean()[agg_level].sem()
+                    ].groupby(['super_group_id_general']).mean()[agg_level].std()
         )
 
     # Change the position of the bars with some magic
@@ -77,10 +76,9 @@ def make_bar_plot_experiments(agg_level, data_in, all_treatments):
         ax.bar(all_r[ix_treatment], plotting_dict[treatment]['mean'],
                 yerr=plotting_dict[treatment]['error_bar'],
                 color=all_colors[ix_treatment], width=barWidth, edgecolor='white',
-                label=treatment, capsize=4)
+                label=treatment, capsize=1, error_kw={'elinewidth':1})
 
     # Add xticks on the middle of the group bars
-    # plt.xlabel('group', fontweight='bold')
     if agg_level == 'winning_price':
         ax.set_ylim([0,5])
     elif agg_level == 'collusive':
@@ -96,32 +94,43 @@ def make_bar_plot_experiments(agg_level, data_in, all_treatments):
     labels = ['%.3f' % elem for elem in all_means]
     distances = all_error
 
+    label_ticks_pos = []
+
     for rect, label, distance in zip(rects, labels, distances):
         height = rect.get_height() + distance
         ax.text(rect.get_x() + rect.get_width() / 2, height, label,
-                ha='center', va='bottom') #, fontweight='bold'
+                ha='center', va='bottom', fontsize=8) 
+        # Position for x labels
+        label_ticks_pos.append(rect.get_x() + rect.get_width() / 2)
 
     # Loop over the bars to add hatches
     for i,thisbar in enumerate(rects):
         # Set a different hatch for each bar
         thisbar.set_hatch(hatches[i])
-
-    # Increase xtick label size
-    ax.tick_params(axis='both', which='major', labelsize=20)
-
-    # Create legend & Show graphic
-    ax.legend(loc='lower center', bbox_to_anchor =(0.5,-0.2), ncol=3, fontsize=20)
     
+    # Make labels as xticks
+    labels_bars = all_treatments
+    ax.set_xticks(label_ticks_pos)
+    ax.set_xticklabels(labels_bars)
+
+    # xtick label size
+    ax.tick_params(axis='both', which='major', labelsize=8)
+
+    # Turn off xaxis grid
+    plt.gca().xaxis.grid(False)
+
     # Save the figure
     fig.savefig(ppj("OUT_FIGURES", f"bar_plot_experiments_{agg_level}.pdf"),
-                bbox_inches='tight')
+                bbox_inches='tight', pad_inches = 0)
 
 
 if __name__ == '__main__':
-    # Setup for matplotlib
+    # Set some general global plotting parameter
     plt.style.use('seaborn-whitegrid')
-    plt.rcParams.update({'font.size': 20})
-    rc('text', usetex=True)
+    mpl.rc('font', family='serif') 
+    mpl.rc('font', serif='Century') 
+    plt.rcParams.update({'font.size': 12,
+                         'axes.titlesize': 12})    
 
     with open(ppj("OUT_DATA", "data_group_level.pickle"), "rb") as f:
         data_group_level_in = pickle.load(f)
