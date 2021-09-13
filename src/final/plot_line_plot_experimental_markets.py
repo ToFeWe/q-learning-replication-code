@@ -5,11 +5,10 @@ human and algorithms.
 """
 import pickle
 
-from matplotlib import rc
+import matplotlib as mpl
 
 import seaborn as sns
 import matplotlib.pyplot as plt
-import numpy as np
 
 from bld.project_paths import project_paths_join as ppj
 
@@ -25,7 +24,7 @@ def make_line_plot(agg_level, data_in, all_treatments):
         all_treatments (list): List with all treatment indicators
     """
 
-    fig, axes = plt.subplots(nrows=1, ncols=3, figsize=(18, 10))
+    fig, axes = plt.subplots(nrows=1, ncols=3, figsize=(7.7,4.6)) #Different from other figures
     plt.subplots_adjust(wspace=0.02)
 
     # Hand picked colors
@@ -47,14 +46,14 @@ def make_line_plot(agg_level, data_in, all_treatments):
                              color=all_colors[ix_treatment],
                              ci=None,
                              marker=all_markers[ix_treatment],
-                             markersize=9,
+                             markersize=4,
                              label=treatment)
             else:
                 sns.lineplot(x='round',
                              y=agg_level,
                              data=data_in.loc[(data_in['super_game'] == sg) & (data_in['treatment'] == treatment)],
                              marker=all_markers[ix_treatment],
-                             markersize=9,
+                             markersize=4,
                              ax=axes[sg - 1],
                              color=all_colors[ix_treatment],
                              ci=None)
@@ -65,8 +64,11 @@ def make_line_plot(agg_level, data_in, all_treatments):
         axes[sg - 1].set_ylabel('')
         axes[sg - 1].set_title('Super game {}'.format(sg))
 
-        # Increase xtick label size
-        axes[sg - 1].tick_params(axis='both', which='major', labelsize=20)
+        # xtick label size
+        axes[sg - 1].tick_params(axis='both', which='major', labelsize=8)
+
+        # Turn off grid
+        axes[sg - 1].xaxis.grid(False)
 
     # Scale of axis
     for axis_index in range(3):
@@ -98,20 +100,24 @@ def make_line_plot(agg_level, data_in, all_treatments):
     # Add legend
     axes[1].legend(
         loc='lower center', bbox_to_anchor=(
-            0.5, -0.36), ncol=3, fontsize=20)
-
+            0.5, -0.36), ncol=3, fontsize=12)
+    
+    # Turn off grid
+    
 
     # Save the figure
     fig.savefig(ppj("OUT_FIGURES", f"line_plot_experiments_{agg_level}.pdf"),
-                bbox_inches='tight')
+                bbox_inches='tight', pad_inches = 0)
 
 
 if __name__ == '__main__':
-    # Setup for matplotlib
-
+    # Set some general global plotting parameter
     plt.style.use('seaborn-whitegrid')
-    plt.rcParams.update({'font.size': 20})
-    rc('text', usetex=True)
+    mpl.rc('font', family='serif') 
+    mpl.rc('font', serif='Century') 
+    plt.rcParams.update({'font.size': 12,
+                         'axes.titlesize': 12})    
+
 
     # Load the data
     with open(ppj("OUT_DATA", "data_group_level.pickle"), "rb") as f:

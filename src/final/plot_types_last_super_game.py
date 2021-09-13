@@ -9,7 +9,7 @@ in the last super game for the treatments
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from matplotlib import rc
+import matplotlib as mpl
 
 from bld.project_paths import project_paths_join as ppj
 
@@ -25,7 +25,7 @@ def make_line_plot(data_1H1A, data_1H2A, all_types):
         all_types (list): List with strategy type indicators
     """
 
-    fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(18, 10))
+    fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(7.7,4.6)) #Different from other figures
     plt.subplots_adjust(wspace=0.02)
     
     # Hand picked colors
@@ -51,7 +51,7 @@ def make_line_plot(data_1H1A, data_1H2A, all_types):
                              color=all_colors[ix_type],
                              ci=None,
                              marker=all_markers[ix_type],
-                             markersize=9,
+                             markersize=4,
                              label=f"Type {current_type}")
             else:
                 sns.lineplot(x='round',
@@ -61,7 +61,7 @@ def make_line_plot(data_1H1A, data_1H2A, all_types):
                              color=all_colors[ix_type],
                              ci=None,
                              marker=all_markers[ix_type],
-                             markersize=9)
+                             markersize=4)
 
 
         # Last super game has 11 rounds
@@ -70,8 +70,9 @@ def make_line_plot(data_1H1A, data_1H2A, all_types):
         axes[ix_data].set_ylabel('')
         axes[ix_data].set_title(f'{all_treatments[ix_data]}')
 
-        # Increase xtick label size
-        axes[ix_data].tick_params(axis='both', which='major', labelsize=20)
+        # xtick label size
+        axes[ix_data].tick_params(axis='both', which='major', labelsize=8)
+
 
     # Scale of axis
     for axis_index in range(2):
@@ -94,18 +95,21 @@ def make_line_plot(data_1H1A, data_1H2A, all_types):
             xmin=1,
             label='Monopoly price',
             colors='black')
-    
+
+        # Turn off grid
+        axes[axis_index].xaxis.grid(False)
+
     # Add ylabel
     axes[0].set_ylabel('Mean market price')
     
     # Add legend
     axes[0].legend(
         loc='lower center', bbox_to_anchor=(
-            1.1, -0.28), ncol=3, fontsize=20)
+            1, -0.28), ncol=3, fontsize=12)
      
     # Save the figure
     fig.savefig(ppj("OUT_FIGURES", f"line_plot_type_classification.pdf"),
-                bbox_inches='tight')
+                bbox_inches='tight', pad_inches = 0)
 
 def _check_n_cluster(data):
     """ Check if the number of clusters is indeed three. """
@@ -113,10 +117,12 @@ def _check_n_cluster(data):
     assert n_clusters == 3, f'Script is optimized for three clusters, not {n_clusters} as found in the data.'
 
 if __name__ == '__main__':
-    # Some parameters for the plotting
+    # Set some general global plotting parameter
     plt.style.use('seaborn-whitegrid')
-    plt.rcParams.update({'font.size': 20})
-    rc('text', usetex=True)
+    mpl.rc('font', family='serif') 
+    mpl.rc('font', serif='Century') 
+    plt.rcParams.update({'font.size': 12,
+                         'axes.titlesize': 12})    
 
 
     # Load the data

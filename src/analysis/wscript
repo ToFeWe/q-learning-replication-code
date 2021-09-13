@@ -193,3 +193,27 @@ def build(ctx):
         ],
         name="cluster_analysis",
     )
+
+    # Calc results for algorithm section
+    ctx(
+        features="run_py_script",
+        source="results_algo_markets.py",
+        target=[
+            ctx.path_to(
+                ctx, "OUT_ANALYSIS", "all_results_fully_algo.json"
+            )
+        ],
+        deps=[
+            ctx.path_to(
+                ctx,
+                "OUT_DATA",
+                "grid_3_agents.pickle",
+            ),
+            ctx.path_to(
+                ctx,
+                "OUT_DATA",
+                "grid_2_agents.pickle",
+            )
+        ],
+        name="results_algo_markets",
+    )

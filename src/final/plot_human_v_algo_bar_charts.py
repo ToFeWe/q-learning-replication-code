@@ -78,9 +78,9 @@ def make_human_v_algo_plot(plotting_dict_in):
     barWidth = 0.35
     distance = 0
     spacing_groups= 1.7
-    algo_color = sns.color_palette('colorblind')[7]
-    human_color = sns.color_palette('colorblind')[1]
-    all_colors = [algo_color, human_color]
+    algo_color = ['#648FFF']
+    human_color = sns.color_palette('colorblind')[7]
+    all_colors = [human_color, algo_color]
 
     fig, ax = plt.subplots(figsize=(5,3.6))
     # fig.set_size_inches(18.5, 10.5)
