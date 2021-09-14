@@ -25,6 +25,7 @@ def make_plot(devation_array, parameter_deviation, parameter_market, out_path):
         devation_array (array): Array with the price sequences with a deviation
         parameter_deviation (dict): Parameters for the deviation simulation
         parameter_market (dict): Parameters that describe the market environment
+        number_of_firms (integer): Number of firms in the market
         out_path (string): filename/path where to save the graph
     """
     periods_to_consider = parameter_deviation["total_plotting_periods"]
@@ -48,8 +49,8 @@ def make_plot(devation_array, parameter_deviation, parameter_market, out_path):
     prices_std = np.std(np.array(array_to_plot), axis=0)
     prices_mean = np.mean(np.array(array_to_plot), axis=0)
 
-    # fig, ax = plt.subplots(figsize=[10, 6])  # TODO: do it general?
-    fig, ax = plt.subplots(figsize=(5,3.6))
+    # fig, ax = plt.subplots(figsize=[10, 6])  # TODO: do it general? figsize=(5,3.6)
+    fig, ax = plt.subplots(figsize=(3.2,2.4))
 
     for agent_i in range(n_agent):
         _, caps, bars = ax.errorbar(
@@ -71,13 +72,20 @@ def make_plot(devation_array, parameter_deviation, parameter_market, out_path):
     ax.set_ylabel("Price")
     ax.set_xticks(x_axis)
     ax.set_yticks([0, 1, 2, 3, 4, 5])
-    ax.tick_params(axis='both', which='major', labelsize=12)
-    ax.legend(fontsize=12, loc='lower right')
-    #loc=(1,0.5))
+    ax.legend(fontsize=8)
+    
+    # Turn off xaxis grid
+    plt.gca().xaxis.grid(False)
 
     # Set labelsize
-    ax.tick_params(axis='x', labelsize=12)
-    ax.tick_params(axis='y', labelsize=12) 
+    ax.tick_params(axis='x', labelsize=8)
+    ax.tick_params(axis='y', labelsize=8) 
+
+    # Add title
+    if n_agent == 2:
+        ax.set_title('0H2A')
+    else:
+        ax.set_title('0H3A')
 
     fig.savefig(out_path, bbox_inches="tight", pad_inches = 0)
 
@@ -109,7 +117,6 @@ if __name__ == "__main__":
 
     OUT_PATH = ppj("OUT_FIGURES", f"deviation_plot_{N_AGENTS}_agents.pdf")
 
-    # Change fontsize and style
 
     make_plot(
         devation_array=ARRAY_DEVIATION_SIMULATION,

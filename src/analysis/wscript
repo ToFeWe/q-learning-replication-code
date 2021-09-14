@@ -217,3 +217,38 @@ def build(ctx):
         ],
         name="results_algo_markets",
     )
+
+    # Calc results for the section that compares algo and humans
+    ctx(
+        features="run_py_script",
+        source="p_values_algo_and_humans_comparison.py",
+        target=[
+            ctx.path_to(
+                ctx, "OUT_ANALYSIS", "all_results_comparing_algos_and_humans.json"
+            )
+        ],
+        deps=[
+            ctx.path_to(
+                ctx,
+                "OUT_DATA",
+                "grid_3_agents.pickle",
+            ),
+            ctx.path_to(
+                ctx,
+                "OUT_DATA",
+                "grid_2_agents.pickle",
+            ),
+            ctx.path_to(
+                ctx,
+                "OUT_DATA",
+                "super_star_avg_prices_2_agents.pickle",
+            ),
+            ctx.path_to(
+                ctx,
+                "OUT_DATA",
+                "super_star_avg_prices_3_agents.pickle",
+            )
+        ],
+        name="p_values_algo_and_humans_comparison",
+    )
+    
