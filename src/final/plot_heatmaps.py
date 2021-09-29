@@ -87,7 +87,7 @@ def value_function_heatmap(array_list, fun, n_agents, parameter_cases):
         cbar.set_ticklabels(
             [
                 "0",
-                "$V^NE=400$",
+                "$V^{NE}=400$",
                 "$V^C=1600$",
             ]
         )
@@ -112,7 +112,7 @@ def value_function_heatmap(array_list, fun, n_agents, parameter_cases):
         cbar.set_ticklabels(
             [
                 "0",
-                "$V^NE=600$",
+                "$V^{NE}=600$",
                 "$V^C=2400$",
             ]
         )

@@ -128,6 +128,8 @@ def make_human_v_algo_plot(plotting_dict_in):
             all_stds.extend(stds)
 
     ax.set_ylim([0, 5])
+    ax.set_yticks([0,1,2,3,4,5])
+    ax.set_yticklabels([0,"$p^{NE}=$1",2,3,"$p^{M}=$4",5])
     ax.set_ylabel('Mean market price')
 
     # Create the label (mean price) over the error bar

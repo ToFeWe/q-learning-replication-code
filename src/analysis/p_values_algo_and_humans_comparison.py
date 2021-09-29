@@ -9,14 +9,13 @@ from scipy.stats import mannwhitneyu, ttest_1samp
 
 from bld.project_paths import project_paths_join as ppj
 
-
 def calc_p_value_by_super_game(
         data_experiment,
         super_star_data,
         grid_data,
         sg,
         treatment):
-    """Calcualte the respective p values mentioned in the paper.
+    """Calculate the respective p values mentioned in the paper.
 
     Args:
         data_experiment (DataFrame): DataFrame with the experimental data on group level
