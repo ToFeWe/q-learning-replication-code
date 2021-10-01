@@ -135,9 +135,7 @@ def build(ctx):
         )
     
     # Type clustering of the experimental data with individual choice
-
     for treatment in ['1H1A', '1H2A']:
-        # Play simulation starting from all possible states
         ctx(
             features="run_py_script",
             source="type_clustering.py",
@@ -161,38 +159,6 @@ def build(ctx):
             append=treatment,
             name=f"type_clustering_{treatment}",
         )
-    
-    # Analysis those clusters
-    ctx(
-        features="run_py_script",
-        source="cluster_analysis.py",
-        target=[
-            ctx.path_to(
-                ctx, "OUT_ANALYSIS", "cluster_shares.json"
-            ),
-            ctx.path_to(
-                ctx, "OUT_ANALYSIS", "p_values_cluster_analysis.json"
-            ),
-        ],
-        deps=[
-            ctx.path_to(
-                ctx,
-                "OUT_ANALYSIS",
-                "data_individual_with_types_1H2A.pickle",
-            ),
-            ctx.path_to(
-                ctx,
-                "OUT_ANALYSIS",
-                "data_individual_with_types_1H1A.pickle",
-            ),
-            ctx.path_to(
-                ctx,
-                "OUT_DATA",
-                "data_group_level.pickle",
-            )
-        ],
-        name="cluster_analysis",
-    )
 
     # Calc results for algorithm section
     ctx(

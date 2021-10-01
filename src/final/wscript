@@ -125,25 +125,3 @@ def build(ctx):
         ),
         name=f"plot_line_plot_experimental_markets",
     )
-
-    # Line plot for the type classification
-    ctx(
-        features="run_py_script",
-        source="plot_types_last_super_game.py",
-        deps=[
-            ctx.path_to(
-                ctx,
-                "OUT_ANALYSIS",
-                f"data_individual_with_types_1H1A.pickle",
-            ),
-            ctx.path_to(
-                ctx,
-                "OUT_ANALYSIS",
-                f"data_individual_with_types_1H1A.pickle",
-            )
-        ],
-        target=ctx.path_to(
-            ctx, "OUT_FIGURES", f"line_plot_type_classification.pdf"
-        ),
-        name=f"plot_types_last_super_game",
-    )
