@@ -143,18 +143,16 @@ def build(ctx):
                 ctx.path_to(
                     ctx,
                     "OUT_ANALYSIS",
-                    f"data_individual_with_types_{treatment}.pickle",
-                ),
-                ctx.path_to(
-                    ctx,
-                    "OUT_ANALYSIS",
-                    f"data_individual_with_types_{treatment}.csv",
+                    f"output_type_clustering_{treatment}.json",
                 )
             ],
             deps=[
                 ctx.path_to(
                     ctx, "OUT_DATA", f"data_individual_level.pickle"
                 ),
+                ctx.path_to(
+                    ctx, "IN_ANALYSIS", "utils_straetgies_clustering.py"
+                )
             ],
             append=treatment,
             name=f"type_clustering_{treatment}",

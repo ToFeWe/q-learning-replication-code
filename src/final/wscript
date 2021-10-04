@@ -125,3 +125,22 @@ def build(ctx):
         ),
         name=f"plot_line_plot_experimental_markets",
     )
+
+    # Individual prices plot
+    for treatment in ['1H1A', '1H2A']:
+        ctx(
+            features="run_py_script",
+            source="plot_individual_price_last_sg.py",
+            deps=[
+                ctx.path_to(
+                    ctx,
+                    "OUT_DATA",
+                    f"data_individual_level.pickle",
+                )
+            ],
+            target=ctx.path_to(
+                ctx, "OUT_FIGURES", f"individual_prices_last_sg_{treatment}.pdf"
+            ),
+            append=[treatment],
+            name="plot_individual_price_last_sg",
+        )

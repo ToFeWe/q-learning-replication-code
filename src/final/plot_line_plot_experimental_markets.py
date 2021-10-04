@@ -84,7 +84,7 @@ def make_line_plot(agg_level, data_in, all_treatments):
             1,
             xmax=xmax_by_sg[axis_index],
             xmin=1,
-            label='Nash equilibrium',
+            label='Stage game Nash equilibrium',
             colors='gray')
         axes[axis_index].hlines(
             4,
