@@ -13,6 +13,14 @@ from bld.project_paths import project_paths_join as ppj
 
 
 def make_plot(data_for_plot):
+
+    """
+    Make a plot for the last supergame
+    with prices on an individual level.
+
+    Returns:
+        Facetgrid: Return Facetgrid plot
+    """
     g = sns.FacetGrid(data_for_plot, col="ID", col_wrap=5, height=1.2, aspect=1)
     g.map(sns.lineplot, "round", "price")
     g.set(ylim=(0, 5), yticks=[0, 1, 2, 3,4,5], xticks=[5, 10])
