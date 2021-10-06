@@ -215,4 +215,38 @@ def build(ctx):
         ],
         name="p_values_algo_and_humans_comparison",
     )
+
+    # Results for mixed markets
+    ctx(
+        features="run_py_script",
+        source="results_mixed_markets.py",
+        target=[
+            ctx.path_to(
+                ctx, "OUT_ANALYSIS", "results_mixed_markets.json"
+            )
+        ],
+        deps=[
+            ctx.path_to(
+                ctx,
+                "OUT_DATA",
+                "data_group_level.pickle",
+            ),
+            ctx.path_to(
+                ctx,
+                "OUT_DATA",
+                "data_individual_level.pickle",
+            ),
+            ctx.path_to(
+                ctx,
+                "OUT_DATA",
+                "super_star_avg_prices_2_agents.pickle",
+            ),
+            ctx.path_to(
+                ctx,
+                "OUT_DATA",
+                "super_star_avg_prices_3_agents.pickle",
+            )
+        ],
+        name="results_mixed_markets",
+    )
     
