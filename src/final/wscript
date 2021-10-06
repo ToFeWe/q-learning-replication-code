@@ -127,7 +127,7 @@ def build(ctx):
     )
 
     # Individual prices plot
-    for treatment in ['1H1A', '1H2A']:
+    for treatment in ['1H1A', '1H2A', '2H1A']:
         ctx(
             features="run_py_script",
             source="plot_individual_price_last_sg.py",

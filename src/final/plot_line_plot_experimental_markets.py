@@ -62,7 +62,7 @@ def make_line_plot(agg_level, data_in, all_treatments):
                                 xmax_by_sg[sg - 1] + 1, 5)])
         axes[sg - 1].set_xlabel('Round')
         axes[sg - 1].set_ylabel('')
-        axes[sg - 1].set_title('Super game {}'.format(sg))
+        axes[sg - 1].set_title('Supergame {}'.format(sg))
 
         # xtick label size
         axes[sg - 1].tick_params(axis='both', which='major', labelsize=8)
