@@ -236,7 +236,7 @@ def estimation(data_for_sfem, strategies, n_bootstrap, n_tries):
                                 cons=cons)
         estimates_bootstrap[b, :] = est
 
-    # Parameter estimation
+    # Parameter estimation now
     main_parameter = single_estimation(n_tries=n_tries,
                                        n_strats=n_strats,
                                        matrix_correct=correct_matrix,

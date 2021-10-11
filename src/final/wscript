@@ -46,9 +46,9 @@ def build(ctx):
                     f"parameter_{n_agents}_agent_base.json",
                 ),
             ],
-            target=ctx.path_to(
+            target=[ctx.path_to(
                 ctx, "OUT_FIGURES", f"deviation_plot_{n_agents}_agents.pdf"
-            ),
+            )],
             append=[str(n_agents)],
             name=f"plot_deviation_{n_agents}",
         )
