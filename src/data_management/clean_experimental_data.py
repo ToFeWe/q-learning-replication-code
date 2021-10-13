@@ -126,9 +126,11 @@ def clean_session(session_data, super_group_ids, data_identifier):
         '_' + data_merge_on['super_group_id'].astype('str')
     data_merge_on['group_id_general'] = data_merge_on['data_identifier'] + \
         '_' + data_merge_on['group_id'].astype('str')
+    
+    # Sort the data
+    data_merge_on.sort_values(['super_game','round', 'group_id', 'super_group_id_general'], ascending=True, inplace=True)
 
     # Create lagged variables
-    # TODO: Check this again.
     for ix_lag in range(5):
         data_merge_on['winning_price_lag_{}'.format(ix_lag)] = data_merge_on.groupby(
             ['super_game', 'group_id', 'participant.code'])['winning_price'].shift(ix_lag)
@@ -171,6 +173,9 @@ if __name__ == '__main__':
         data_list.append(current_data_clean)
     data_all = pd.concat(data_list)
 
+    # Reset index 
+    data_all.reset_index(inplace=True)
+
     # Save individual level data
     data_all.to_pickle(ppj("OUT_DATA", "data_individual_level.pickle"))
     data_all.reset_index().to_feather(ppj("OUT_DATA", "data_individual_level.feather"))
@@ -192,6 +197,10 @@ if __name__ == '__main__':
                                          'collusive',
                                          'super_group_id_general',
                                          'price_algorithm']]
+
+    # Reset index
+    data_group_level.reset_index(inplace=True)
+
     data_group_level.to_pickle(ppj("OUT_DATA", "data_group_level.pickle"))
     data_group_level.reset_index().to_feather(
         ppj("OUT_DATA", "data_group_level.feather"))
