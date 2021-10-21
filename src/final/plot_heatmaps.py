@@ -7,6 +7,7 @@ import pickle
 import sys
 
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
 import numpy as np
 import seaborn as sns
 from matplotlib import rc
@@ -33,12 +34,19 @@ def set_ticks_heatmap(axis_in, parameter_cases):
     alpha_mid_point = (parameter_cases["alpha_max"] + parameter_cases["alpha_min"]) / 2
 
     # Make Labels for beta
+    
+    # mticket to reformat scalar beta
+    f = mticker.ScalarFormatter(useOffset=False, useMathText=True)
+    
+    all_beta_labels_float = [parameter_cases["beta_min"], beta_mid_point, parameter_cases["beta_max"]]
+    all_beta_labels_string = ["${}$".format(f.format_data(x)) for x in all_beta_labels_float]
+
     axis_in.set_xlabel(r"Exploration decay ($\beta$)", labelpad=10)
     axis_in.set_xticks(
         [0, parameter_cases["grid_points"] / 2, parameter_cases["grid_points"]]
     )
     axis_in.set_xticklabels(
-        [parameter_cases["beta_min"], beta_mid_point, parameter_cases["beta_max"]], rotation="horizontal"
+        all_beta_labels_string, rotation="horizontal"
     )
 
     # Label for alpha
