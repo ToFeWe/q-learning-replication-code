@@ -46,14 +46,14 @@ def make_line_plot(agg_level, data_in, all_treatments):
                              color=all_colors[ix_treatment],
                              ci=None,
                              marker=all_markers[ix_treatment],
-                             markersize=4,
+                             markersize=5,
                              label=treatment)
             else:
                 sns.lineplot(x='round',
                              y=agg_level,
                              data=data_in.loc[(data_in['super_game'] == sg) & (data_in['treatment'] == treatment)],
                              marker=all_markers[ix_treatment],
-                             markersize=4,
+                             markersize=5,
                              ax=axes[sg - 1],
                              color=all_colors[ix_treatment],
                              ci=None)
