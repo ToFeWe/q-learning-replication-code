@@ -15,7 +15,7 @@ import pandas as pd
 from scipy.optimize import minimize
 
 from bld.project_paths import project_paths_join as ppj
-from src.analysis.utils_straetgies_clustering import exploit, exploit_at_2, always_cooperate, always_defect
+from src.analysis.utils_strategies_clustering import exploit, exploit_at_2, always_cooperate, always_defect
 
 
 def create_data_frame_sfem(data_sfem, strategy_order):

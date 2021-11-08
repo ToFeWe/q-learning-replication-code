@@ -151,7 +151,7 @@ def build(ctx):
                     ctx, "OUT_DATA", f"data_individual_level.pickle"
                 ),
                 ctx.path_to(
-                    ctx, "IN_ANALYSIS", "utils_straetgies_clustering.py"
+                    ctx, "IN_ANALYSIS", "utils_strategies_clustering.py"
                 )
             ],
             append=treatment,
