@@ -160,8 +160,8 @@ def make_human_v_algo_plot(plotting_dict_in):
     ax.set_xticklabels(labels_bars)
 
     # Adding top labels with matplotlib magic numbers
-    ax.text(-0.12, 4.7, 'Two firm markets', fontsize=12)
-    ax.text(1.56, 4.7, 'Three firm markets', fontsize=12)
+    ax.text(-0.12, 4.7, 'Two-firm markets', fontsize=12)
+    ax.text(1.56, 4.7, 'Three-firm markets', fontsize=12)
     ax.tick_params(axis='both', which='major', labelsize=8)
 
     hatches = ['..', '..','..','..','..','..', '/', '/']

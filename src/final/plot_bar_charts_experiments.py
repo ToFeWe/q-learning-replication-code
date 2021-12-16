@@ -143,8 +143,8 @@ def make_bar_plot_experiments(
     ax.tick_params(axis='both', which='major', labelsize=8)
 
     # Adding top labels with matplotlib magic numbers
-    ax.text(-0.2, 4.7, 'Two firm markets', fontsize=12)
-    ax.text(1.2, 4.7, 'Three firm markets', fontsize=12)
+    ax.text(-0.2, 4.7, 'Two-firm markets', fontsize=12)
+    ax.text(1.2, 4.7, 'Three-firm markets', fontsize=12)
 
     # Turn off xaxis grid
     plt.gca().xaxis.grid(False)
